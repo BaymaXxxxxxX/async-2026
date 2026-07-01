@@ -1,28 +1,25 @@
-# Program 10: Extracting Return Values from Tasks
-# Concept: Accessing returned results from completed Task objects using .result() or direct assignment.
-
+# Program 10: Retreiving Task Return Value
+# Concept: Accessing the return value of completed tasks.
 import asyncio
-from time import ctime
 
-async def fetch_data(i):
-    print(f"{ctime()} | task {i}: Fetching data...")
+async def calculate_bill(customer, base_price):
+    print(f"Calculating receipt for Customer {customer}...")
     await asyncio.sleep(1)
-    print(f"{ctime()} | task {i}: Data fetched!")
-    return f"Data Packet {i}"
+    final_price = base_price * 1.07
+    return final_price
 
 async def main():
-    print(f"{ctime()} | main: Starting task 1")
-    task1 = asyncio.create_task(fetch_data(1))
+    task_a = asyncio.create_task(calculate_bill("A", 100))
+    task_b = asyncio.create_task(calculate_bill("B", 200))
     
-    # 1. Accessing return value via direct assignment (awaiting the task)
-    print(f"{ctime()} | main: Awaiting task 1 directly...")
-    result_direct = await task1
-    print(f"{ctime()} | main: Got result via direct assignment: {result_direct}")
+    result_a = await task_a
+    result_b = await task_b
     
-    # 2. Accessing return value via .result() method (only works after the task is completed)
-    print(f"{ctime()} | main: Retrieving result via task1.result()...")
-    result_method = task1.result()
-    print(f"{ctime()} | main: Got result via .result() method: {result_method}")
+    # result_b = task_b.result()
+    
+    print(f"\nFinal Bill A: {result_a:.2f}")
+    print(f"Final Bill B: {result_b:.2f}")
+    print(f"Combined Total Revenue: {result_a + result_b:.2f}")
 
 if __name__ == "__main__":
     asyncio.run(main())

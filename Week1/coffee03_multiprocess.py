@@ -12,19 +12,19 @@ def main():
     queue = ['A', 'B', 'C']
     print(f"{ctime()} === เริ่มระบบจำลองตู้กาแฟแบบ Multi-processing ===")
     start_time = time()
-    
+
     processes = [] # กระดานเก็บรายชื่อหน่วยประมวลผล (Processes)
-    
+
     # 1. แตกกระบวนการทำงานแยกจากกันเป็นอิสระ (คนละตู้ คนละ CPU Core)
     for customer in queue:
         p = multiprocessing.Process(target=make_coffee, args=(customer,))
         processes.append(p)
         p.start() # สั่งเริ่มประมวลผลทันที
-        
+
     # 2. รอจนกระทั่งทุก Process ทำงานเสร็จครบหมด
     for p in processes:
         p.join()
-        
+
     # 3. แสดงผลลัพธ์ภาพรวม
     duration = time() - start_time
     print(f"{ctime()} สำเร็จ! ทุกตู้ทำงานแยกกันเสร็จสิ้น ใช้เวลารวมทั้งหมด: {duration:0.2f} วินาที")

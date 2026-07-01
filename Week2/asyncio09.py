@@ -1,36 +1,26 @@
-# Program 9: Dynamically Tracking Tasks in a List
-# Concept: Managing multiple generated tasks dynamically by appending them into a standard Python list.
-
+# Program 9: Dynamic Task List
+# Concept: Managing multiple tasks in a list and awaiting them.
 import asyncio
-from time import ctime, time
+from time import time, ctime
 
-async def worker(i, delay):
-    print(f"{ctime()} | Worker {i}: Working for {delay} seconds...")
-    await asyncio.sleep(delay)
-    print(f"{ctime()} | Worker {i}: Done!")
-    return f"Result from worker {i}"
+async def serve_customer(name):
+    print(f"{ctime()} -> Handling customer {name}")
+    await asyncio.sleep(1)
+    print(f"{ctime()} -> Done customer {name}")
 
 async def main():
     start_time = time()
-    tasks = []
+    customers = ["A", "B", "C", "D"]
+    task_list = []
     
-    # Generate tasks dynamically and append them to a list
-    print(f"{ctime()} | main: Generating and scheduling 5 tasks dynamically")
-    for i in range(1, 6):
-        # We vary the delay for each task: task 1 takes 0.5s, task 2 takes 1.0s, etc.
-        delay = i * 0.5
-        task = asyncio.create_task(worker(i, delay))
-        tasks.append(task)
+    for name in customers:
+        t = asyncio.create_task(serve_customer(name))
+        task_list.append(t)
         
-    print(f"{ctime()} | main: Tasks list populated. Awaiting each task dynamically...")
-    
-    # Wait for tasks and inspect results
-    for task in tasks:
-        res = await task
-        print(f"{ctime()} | main: Received result: {res}")
+    for t in task_list:
+        await t
         
-    duration = time() - start_time
-    print(f"{ctime()} | Finished all tasks. Total time: {duration:0.2f} seconds")
+    print(f"Served all {len(customers)} customers in {time() - start_time:.2f} seconds.")
 
 if __name__ == "__main__":
     asyncio.run(main())

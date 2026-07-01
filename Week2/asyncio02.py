@@ -1,20 +1,19 @@
-# Program 2: The Coroutine Object
-# Concept: Seeing that calling an async def function creates an "Object" but does not execute it yet.
-
+# Program 2: Coroutine Object
+# Concept: Calling an async def function returns a coroutine object, it doesn't run the function yet.
+import asyncio
 import inspect
+from time import ctime
 
-async def f():
-    return 123
+async def serve_customer(name):
+    print(f"{ctime()} -> Cooking for {name}...")
+    await asyncio.sleep(1)
+    print(f"{ctime()} -> Served {name}!")
 
-# Calling the function returns a coroutine object but does not run its body
-coro = f()
-print(f"coro: {coro}")
-print(f"type(coro): {type(coro)}")
-print(f"inspect.iscoroutine(coro): {inspect.iscoroutine(coro)}")
-
-# Initiate/step the coroutine by sending None.
-# Since it returns 123 immediately, it raises StopIteration containing the return value.
-try:
-    coro.send(None)
-except StopIteration as e:
-    print(f"The answer was: {e.value}")
+if __name__ == "__main__":
+    print(f"{ctime()} -> Calling serve_customer('A')...")
+    coro = serve_customer("A")
+    print(f"{ctime()} -> Coroutine object created: {coro}")
+    print(f"{ctime()} -> Note that 'Cooking for A...' was not printed yet because it has not run.")
+    
+    print(f"{ctime()} -> type(coro): {type(coro)}")
+    print(f"{ctime()} -> inspect.iscoroutine(coro): {inspect.iscoroutine(coro)}")

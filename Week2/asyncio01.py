@@ -1,20 +1,17 @@
 # Program 1: The First Coroutine Function
 # Concept: Understanding async def and how it differs from a normal function.
-
 import inspect
+from time import ctime
 
-# A normal function
-def normal_func():
-    return 123
+def cook_spaghetti(customer):
+    return f"Spaghetti for {customer}"
 
-# A coroutine function
-async def async_func():
-    return 123
+async def serve_customer(customer):
+    return f"Served customer {customer}"
 
-# Check the type of the functions
-print(f"type(normal_func): {type(normal_func)}")
-print(f"type(async_func): {type(async_func)}")
-
-# Verify using inspect module
-print(f"inspect.iscoroutinefunction(normal_func): {inspect.iscoroutinefunction(normal_func)}")
-print(f"inspect.iscoroutinefunction(async_func): {inspect.iscoroutinefunction(async_func)}")
+if __name__ == "__main__":
+    print(f"{ctime()} -> type(cook_spaghetti): {type(cook_spaghetti)}")
+    print(f"{ctime()} -> type(serve_customer): {type(serve_customer)}")
+    
+    print(f"{ctime()} -> inspect.iscoroutinefunction(cook_spaghetti): {inspect.iscoroutinefunction(cook_spaghetti)}")
+    print(f"{ctime()} -> inspect.iscoroutinefunction(serve_customer): {inspect.iscoroutinefunction(serve_customer)}")

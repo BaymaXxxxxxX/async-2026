@@ -1,39 +1,40 @@
-# restaurant_01_simple.py
-# Concept: Synchronous Restaurant Operation (sequential execution of all tasks per customer).
-
 from time import sleep, ctime, time
 
-def greet_customer(customer):
+# Greeting synchronous
+def greet_diners(customer):
     print(f"{ctime()} Greeting for Customer-{customer} ...")
     sleep(1)
     print(f"{ctime()} Greeting for Customer-{customer} ...Done!")
 
-def serve_customer(customer):
-    print(f"{ctime()} [Task-{customer}] Taking Order ...")
+# Take Order
+def take_orders(customer):
+    print(f"{ctime()} Taking Order for Customer-{customer} ...")
     sleep(1)
-    print(f"{ctime()} [Task-{customer}] Taking Order ...Done!")
-    
-    print(f"{ctime()} [Task-{customer}] Cooking Spaghetti ...")
-    sleep(1)
-    print(f"{ctime()} [Task-{customer}] Cooking Spaghetti ...Done!")
-    
-    print(f"{ctime()} [Task-{customer}] Manage Bar for Drink ...")
-    sleep(1)
-    print(f"{ctime()} [Task-{customer}] Manage Bar for Drink ...Done!")
-    
-    print(f"{ctime()} [Task-{customer}] All served!")
+    print(f"{ctime()} Taking Order for Customer-{customer} ...Done!")
 
-def main():
-    queue = ['A', 'B', 'C']
-    start_time = time()
-    
-    # Synchronous: Process each customer fully (including greeting) one by one
-    for customer in queue:
-        greet_customer(customer)
-        serve_customer(customer)
-        
-    duration = time() - start_time
-    print(f"\n{ctime()} Finished Entire Restaurant Operation in {duration:0.2f} seconds.")
+# Do Cooking
+def do_cooking(customer):
+    print(f"{ctime()} Cooking for Customer-{customer} ...")
+    sleep(1)
+    print(f"{ctime()} Cooking for Customer-{customer} ...Done!")
+
+# Do Cooking
+def mini_bar(customer):
+    print(f"{ctime()} Mini Bar for Customer-{customer} ...")
+    sleep(1)
+    print(f"{ctime()} Mini Bar for Customer-{customer} ...Done!")
 
 if __name__ == "__main__":
-    main()
+    # Begin of main thread
+    customers = ['A', 'B', 'C']
+
+    start_time = time()
+    # Cooking for each customer
+    for customer in customers:
+        greet_diners(customer)
+        take_orders(customer)
+        do_cooking(customer)
+        mini_bar(customer)
+
+    duration = time() - start_time
+    print(f"{ctime()} Finished Cooking in {duration:0.2f} seconds.")

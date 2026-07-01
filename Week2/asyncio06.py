@@ -1,31 +1,19 @@
-# Program 6: Creating a Concurrent Task
-# Concept: Wrapping a coroutine inside asyncio.create_task() to schedule it to run in the background.
-
+# Program 6: Concurrent Task
+# Concept: Wrapping a coroutine in asyncio.create_task() registers it on the event loop to run concurrently.
 import asyncio
-from time import ctime, time
+from time import time, ctime
 
-async def background_task():
-    print(f"{ctime()} | task: Started background execution")
-    await asyncio.sleep(2)
-    print(f"{ctime()} | task: Completed background execution")
-    return "Task completed successfully"
+async def cook_spaghetti(customer):
+    print(f"{ctime()} -> Starting cooking for Customer {customer}...")
+    await asyncio.sleep(1)
+    print(f"{ctime()} -> Finished cooking for Customer {customer}!")
 
 async def main():
     start_time = time()
-    print(f"{ctime()} | main: Scheduling background_task")
-    
-    # Wrap in create_task to schedule it immediately in the event loop
-    task = asyncio.create_task(background_task())
-    
-    print(f"{ctime()} | main: Task created, main doing some synchronous/non-blocking work (sleeping 1s)...")
-    await asyncio.sleep(1) # During this sleep, the event loop runs the task!
-    
-    print(f"{ctime()} | main: Main woke up. Now awaiting the task to finish...")
-    result = await task
-    print(f"{ctime()} | main: Received result: {result}")
-    
-    duration = time() - start_time
-    print(f"{ctime()} | Total operation duration: {duration:0.2f} seconds")
+    task_a = asyncio.create_task(cook_spaghetti("A"))
+    print(f"{ctime()} -> Main program can do other things while Task A runs in background.")
+    await task_a
+    print(f"Total Operation Time: {time() - start_time:.2f} seconds")
 
 if __name__ == "__main__":
     asyncio.run(main())

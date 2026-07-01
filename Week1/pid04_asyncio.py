@@ -37,11 +37,11 @@ async def main():
         task = asyncio.create_task(coro, name=f"Task-{customer}")
         tasks.append(task)
         
-    # สั่งให้ทำงานพร้อมกัน
+    # สั่งให้ทำพร้อมกัน
     await asyncio.gather(*tasks)
     
     duration = time() - start_time
-    print(f"{ctime()} | ใช้เวลารวมทั้งหมด: {duration:0.2f} วินาที")
+    print(f"{ctime()} | ใช้เวลารวมทั้งหมด: {duration:.2f} วินาที")
 
 if __name__ == "__main__":
     asyncio.run(main())
